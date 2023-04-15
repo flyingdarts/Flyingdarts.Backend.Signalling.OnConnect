@@ -23,9 +23,6 @@ public class OnConnectCommandHandler : IRequestHandler<OnConnectCommand, APIGate
         if (request != null)
             await CreateSignallingRecord(request.ConnectionId);
 
-        if (!string.IsNullOrEmpty(request!.PlayerId))
-            await UpdateSignallingRecord(request.ConnectionId, request.PlayerId);
-
         return Responses.Created(JsonSerializer.Serialize(request));
     }
     private async Task CreateSignallingRecord(string connectionId)
@@ -36,20 +33,6 @@ public class OnConnectCommandHandler : IRequestHandler<OnConnectCommand, APIGate
             Item = new Dictionary<string, AttributeValue>
             {
                 { "ConnectionId", new AttributeValue{ S = connectionId }}
-            }
-        };
-
-        await _dynamoDb.PutItemAsync(ddbRequest);
-    }
-    private async Task UpdateSignallingRecord(string connectionId, string playerId)
-    {
-        var ddbRequest = new PutItemRequest
-        {
-            TableName = _tableName,
-            Item = new Dictionary<string, AttributeValue>
-            {
-                { "ConnectionId", new AttributeValue{ S = connectionId }},
-                { "PlayerId", new AttributeValue{ S = playerId }}
             }
         };
 
