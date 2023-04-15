@@ -12,10 +12,10 @@ public class OnConnectCommandHandler : IRequestHandler<OnConnectCommand, APIGate
 {
     private readonly IAmazonDynamoDB _dynamoDb;
     private readonly string _tableName;
-    public OnConnectCommandHandler(IAmazonDynamoDB dynamoDb, string tableName)
+    public OnConnectCommandHandler(IAmazonDynamoDB dynamoDb)
     {
         _dynamoDb = dynamoDb;
-        _tableName = tableName;
+        _tableName = System.Environment.GetEnvironmentVariable("TableName");
     }
     public async Task<APIGatewayProxyResponse> Handle(OnConnectCommand request, CancellationToken cancellationToken)
     {
