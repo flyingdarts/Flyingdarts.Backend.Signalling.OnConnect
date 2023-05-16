@@ -1,8 +1,5 @@
-
-using System;
 using Amazon.DynamoDBv2;
 using Microsoft.Extensions.DependencyInjection;
-using MediatR;
 using FluentValidation;
 
 public static class ServiceFactory
